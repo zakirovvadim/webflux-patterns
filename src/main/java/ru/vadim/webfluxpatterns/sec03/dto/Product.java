@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor(staticName = "create")
 @NoArgsConstructor
-public class ProductResponse {
+public class Product {
 
     private Integer id;
     private String category;
