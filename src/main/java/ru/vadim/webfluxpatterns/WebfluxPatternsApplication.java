@@ -3,7 +3,7 @@ package ru.vadim.webfluxpatterns;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "ru.vadim.webfluxpatterns.sec02")
+@SpringBootApplication(scanBasePackages = "ru.vadim.webfluxpatterns.sec03")
 public class WebfluxPatternsApplication {
 
     public static void main(String[] args) {

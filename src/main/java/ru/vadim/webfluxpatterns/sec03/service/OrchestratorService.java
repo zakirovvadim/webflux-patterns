@@ -3,8 +3,9 @@ package ru.vadim.webfluxpatterns.sec03.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import ru.vadim.webfluxpatterns.sec01.client.ProductClient;
+import ru.vadim.webfluxpatterns.sec03.client.ProductClient;
 import ru.vadim.webfluxpatterns.sec03.dto.*;
+import ru.vadim.webfluxpatterns.sec03.util.DebugUtil;
 import ru.vadim.webfluxpatterns.sec03.util.OrchestrationUtil;
 
 @Service
@@ -26,14 +27,15 @@ public class OrchestratorService {
                .doOnNext(OrchestrationUtil::buildRequestContext)
                .flatMap(fulfilmentService::placeOrder)
                .doOnNext(this::doOrderProcessing)
+               .doOnNext(DebugUtil::print) // just for debug
                .map(this::toOrderResponse);
     }
 
     private Mono<OrchestrationRequestContext> getProduct(OrchestrationRequestContext context) {
         return this.productClient.getProduct(context.getOrderRequest().getProductId())
-                .map(product -> product.getPrice())
+                .map(Product::getPrice)
                 .doOnNext(context::setProductPrice)
-                .thenReturn(context);
+                .map(i -> context);
     }
 
     private void doOrderProcessing(OrchestrationRequestContext context) {
