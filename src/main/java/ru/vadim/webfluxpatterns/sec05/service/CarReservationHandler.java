@@ -26,6 +26,7 @@ public class CarReservationHandler extends ReservationHandler {
     @Override
     protected Flux<ReservationItemResponse> reserve(Flux<ReservationItemRequest> flux) {
         return flux.map(this::toCarRequest)
+                .log()
                 .transform(this.carClient::reserve)
                 .map(this::toResponse);
     }
